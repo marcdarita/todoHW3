@@ -28,15 +28,21 @@ class ListScreen extends Component {
         }
 
         return (
-            <div className="container white">
-                <h5 className="grey-text text-darken-3">Todo List</h5>
-                <div className="input-field">
+            <div className="container white row">
+                <h5 className="grey-text text-darken-3 light-green lighten-3 center-align">Todo List<div className = "right-align">&#128465;</div></h5>
+                
+                <div className="input-field col s6">
                     <label htmlFor="email">Name</label>
-                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange} value={todoList.name} />
+                    <input className="active" type="text" name="name" id="name" onChange={this.handleChange.bind(this)} value={todoList.name} />
                 </div>
-                <div className="input-field">
+                <div className="input-field col s6">
                     <label htmlFor="password">Owner</label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange} value={todoList.owner} />
+                </div>
+                <div class="row">
+                    <div class="col s4 left-align grey lighten-2"><h5>Task</h5></div>
+                    <div class="col s4 left-align grey lighten-2"><h5>Due Date</h5></div>
+                    <div class="col s4 left-align grey lighten-2"><h5>Status</h5></div>
                 </div>
                 <ItemsList todoList={todoList} />
             </div>

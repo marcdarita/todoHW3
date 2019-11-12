@@ -35,11 +35,27 @@ class HomeScreen extends Component {
             </div>
         );
     }
+
+    handleNewList = () => {
+        const newL = {
+            // this.props.todoLists.items.length
+            key: 0,
+            name: "N/A",
+            owner: "N/A",
+            items: []
+        }
+
+        console.log("Creating new list")
+        console.log(this.props.todoLists)
+        // this.props.todoLists.items.push(newL)
+    }
+
 }
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        todoLists: state.firestore.ordered.todoLists,
     };
 };
 
