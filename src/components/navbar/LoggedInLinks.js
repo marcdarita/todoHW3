@@ -24,6 +24,7 @@ class LoggedInLinks extends React.Component {
   };
 }
 
+// Push
 const mapDispatchToProps = dispatch => ({
   signOut: firebase => dispatch(logoutHandler(firebase)),
 });

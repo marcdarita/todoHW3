@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
+import { getFirestore } from 'redux-firestore';
 
 class HomeScreen extends Component {
 
@@ -37,19 +38,21 @@ class HomeScreen extends Component {
     }
 
     handleNewList = () => {
-        const newL = {
-            // this.props.todoLists.items.length
-            key: 0,
-            name: "N/A",
-            owner: "N/A",
-            items: []
-        }
+        const fireStore = getFirestore();
+        // const newL = {
+        //     key: firestore.collection('todoLists').length,
+        //     name: "N/A",
+        //     owner: "N/A",
+        //     items: [],
+        // }
 
         console.log("Creating new list")
-        console.log(this.props.todoLists)
-        // this.props.todoLists.items.push(newL)
+        fireStore.collection('todoLists').add({
+            name: "N/A",
+            owner: "N/A",
+            items:[],
+        })
     }
-
 }
 
 const mapStateToProps = (state) => {
