@@ -29,6 +29,7 @@ class ListScreen extends Component {
         const firestore = getFirestore();
         firestore.collection('todoLists').doc(this.props.todoList.id).update({
             name: target.value,
+            timestamp: Date.now(),
         });
     }
 
@@ -37,6 +38,7 @@ class ListScreen extends Component {
         const firestore = getFirestore();
         firestore.collection('todoLists').doc(this.props.todoList.id).update({
             owner: target.value,
+            timestamp: Date.now(),
         });
     }
 
@@ -46,11 +48,18 @@ class ListScreen extends Component {
         firestore.collection('todoLists').doc(this.props.todoList.id).delete();
     }
 
-    printTrash = () => {
-        console.log("TRASH")
+    removeFooter = () => {
+        var element = document.getElementsByClassName("modal-footer")[0];
+        if (element)
+            {element.parentNode.removeChild(element);}
     }
 
     render() {
+
+        const firestore = getFirestore();
+        firestore.collection('todoLists').doc(this.props.todoList.id).update({
+            // timestamp: Date.now(),
+        })
         
         const auth = this.props.auth;
         const todoList = this.props.todoList;
@@ -60,7 +69,8 @@ class ListScreen extends Component {
 
 
         const trashTrigger = 
-        <Button className = "waves-effect waves-light btn-flat btn-floating btn-large center-align light-green lighten-3">
+        <Button className = "waves-effect waves-light btn-flat btn-floating btn-large center-align light-green lighten-3"
+            onClick = {this.removeFooter}>
             <i class="material-icons">delete</i>
         </Button>   
 
@@ -91,6 +101,15 @@ class ListScreen extends Component {
                 </div>
                 
                 <ItemsList todoList={todoList} />
+
+                <p className = "center-align">
+                    <Link to={{pathname: "/todoList/" + this.props.todoList.id + "/" + (this.props.todoList.items.length) + "/add", 
+                            state: {todoList: this.props.todoList, key: this.props.todoList.items.length}}} className="brand-logo">
+                        <a className="btn-floating btn-large waves-effect waves-light center-align light-green lighten-3 hoverable">
+                            <i className="material-icons">add</i>
+                        </a>
+                    </Link>
+                </p>
             </div>
         );
     }

@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-// import ItemsList from './ItemsList.js'
-import { firestoreConnect } from 'react-redux-firebase';
 import DatePicker from 'react-materialize/lib/DatePicker';
-import { Link } from 'react-router-dom';
 import { getFirestore } from 'redux-firestore';
-import Checkbox from 'react-materialize/lib/Checkbox';
+import { Button, Icon } from 'react-materialize'; 
 
 class AddItemScreen extends Component {
     state = {
@@ -35,60 +29,32 @@ class AddItemScreen extends Component {
     }
 
     addItem = () => {
+        var newList = this.props.location.state.todoList;
         const newItem = {
-            description: this.state.new_description,
-            assigned_to: this.state.new_assigned_to,
-            due_date: this.state.new_due_date,
-            completed: this.state.new_completed
+            "key": this.props.location.state.key,
+            "description": this.state.new_description,
+            "assigned_to": this.state.new_assigned_to,
+            "due_date": this.state.new_due_date,
+            "completed": this.state.new_completed
         }
 
-        // const firestore = getFirestore();
-        // firestore.collection('todoLists').doc(this.props.todoList.id).items.push(newItem);
-        console.log(this.state.new_description)
-        console.log(this.state.new_assigned_to)
-        console.log(this.state.new_due_date)
-        console.log(this.state.new_completed)
+        const firestore = getFirestore();
+
+        newList.items[this.props.location.state.key] = newItem;
+        firestore.collection('todoLists').doc(this.props.location.state.todoList.id).update({
+            items: newList.items
+        });
+
+        this.props.history.goBack();
     }
 
     render () {
-        // const auth = this.props.auth;
-        // const item = this.props.item;
-        // if (!auth.uid) {
-        //     return <Redirect to="/" />;
-        // }
-
-        // return (
-            
-            
-        //     <div className = "container white row">
-        //         <div className="grey-text text-darken-3 light-green lighten-2 center-align"></div>
-        //             <h5>Item Screen</h5>
-        //             <input type = "text">Description</input>
-        //             <input type = "text">Assigned To</input>
-        //             <input type = "date">Due Date</input>
-        //             <input type = "Checkbox"></input>
-        //             <div class="row">
-        //             <div class="col s3 left-align grey lighten-2"><h5>Task</h5></div>
-        //             <div class="col s3 left-align grey lighten-2"><h5>Due Date</h5></div>
-        //             <div class="col s3 left-align grey lighten-2"><h5>Status</h5></div>
-        //             <div class="col s3 grey lighten-2"><h5>Action</h5></div>
-        //         </div>    
-        //     </div>
-        // );
-
         return (
             <div className="container white row">
                 <div className="grey-text text-darken-3 light-green lighten-2 center-align">
                     <h5>Add New Item</h5>
                     <div className = "right-align">
-                    
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s3 left-align grey lighten-2"><h5>Task</h5></div>
-                    <div class="col s3 left-align grey lighten-2"><h5>Due Date</h5></div>
-                    <div class="col s3 left-align grey lighten-2"><h5>Status</h5></div>
-                    <div class="col s3 grey lighten-2"><h5>Action</h5></div>
                 </div>
                 <div className="input-field col s12">
                     <label>Task</label>
@@ -110,16 +76,11 @@ class AddItemScreen extends Component {
                     </label>
                 </p>
                 </div>
-                <div className="center-align col s12">
-                
-                    <p><a class="waves-effect waves-light btn light-green lighten-2" onClick = {this.addItem}>Add</a>
-                            &nbsp;&nbsp;&nbsp;
-                            <Link to ={'/'}>
-                            {/* <Link to={'/todoList/' + this.props.todoList.id} key={this.props.todoList.id}> */}
-                                <a class="waves-effect waves-light btn light-green lighten-2">Cancel</a>
-                            </Link>
-                    </p>
-                </div>
+                <p className="center-align col s12">
+                    <Button className = "waves-effect waves-light btn light-green lighten-2" onClick = {() => {this.addItem()}}>Add</Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button className = "waves-effect waves-light btn light-green lighten-2" onClick = {() => {this.props.history.goBack()}}>Cancel</Button>
+                </p>
             </div>
         );
     }

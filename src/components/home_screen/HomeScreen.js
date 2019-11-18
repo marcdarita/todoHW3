@@ -5,6 +5,7 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
 import { getFirestore } from 'redux-firestore';
+// import {Link, RichText, Date} from 'prismic-reactjs';
 
 class HomeScreen extends Component {
 
@@ -39,18 +40,13 @@ class HomeScreen extends Component {
 
     handleNewList = () => {
         const fireStore = getFirestore();
-        // const newL = {
-        //     key: firestore.collection('todoLists').length,
-        //     name: "N/A",
-        //     owner: "N/A",
-        //     items: [],
-        // }
 
         console.log("Creating new list")
         fireStore.collection('todoLists').add({
             name: "N/A",
             owner: "N/A",
             items:[],
+            timestamp: Date.now()
         })
     }
 }
@@ -65,6 +61,7 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+    //   { collection: 'todoLists'},
+      { collection: 'todoLists', orderBy: ['timestamp', 'desc']},
     ]),
 )(HomeScreen);

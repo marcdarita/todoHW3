@@ -3,11 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemCard from './ItemCard';
 import { firestoreConnect } from 'react-redux-firebase';
-import { Button, Icon } from 'react-materialize'; 
-
-import { Link } from 'react-router-dom';
-import ItemScreen from '../item_screen/ItemScreen';
-import { strict } from 'assert';
 
 class ItemsList extends React.Component {
     state = {
@@ -19,7 +14,7 @@ class ItemsList extends React.Component {
     render() {
         const todoList = this.props.todoList;
         const items = todoList.items;
-        console.log("ItemsList: todoList.id " + todoList.id);
+        // console.log("ItemsList: todoList.id " + todoList.id);
         
         return (
             <div className="todo-lists section">
@@ -34,48 +29,14 @@ class ItemsList extends React.Component {
                     return (
                         <div className = "row">
                             <div className = "col s12">
-                            <Link to={'/item/' + item.id} key={item.id}>
-                                
-                                <ItemCard todoList={todoList} item={item} />
-                                
-                            </Link>
+                                <ItemCard todoList={todoList} item={item}/>
                             </div>
-                            {/* <div className = "col s3 center-align"> */}
-                                {/* <Button floating icon={<i class="material-icons">arrow_upward</i>} 
-                                        className="light-green lighten-3 hoverable" medium
-                                        onClick = {this.moveItemUp}
-                                        /> &nbsp;
-                                <Button floating icon={<i class="material-icons">arrow_downward</i>} 
-                                        className="light-green lighten-3 hoverable" medium
-                                        /> &nbsp;
-                                <Button floating icon={<i class="material-icons">clear</i>} 
-                                        className="light-green lighten-3 hoverable" medium
-                                        /> */}
-
-                            {/* <Button floating fab={{direction: 'left', position: 'relative'}} className="red fab hoverable" large>
-                                    <Button floating icon={<i class="material-icons">arrow_upward</i>} className="light-green lighten-3 hoverable" medium/>
-                                    <Button floating icon={<i class="material-icons">arrow_downward</i>} className="light-green lighten-3 hoverable" medium/>
-                                    <Button floating icon={<i class="material-icons">clear</i>} className="light-green lighten-3 hoverable" medium/>
-                                </Button> */}
-                            {/* </div> */}
                         </div>
                     );})   
                 }
-                
-                <div className = "center-align">
-                    <Link to={'/item/add'} className="brand-logo">
-                        <a className="btn-floating btn-large waves-effect waves-light center-align light-green lighten-3 hoverable">
-                            <i className="material-icons">add</i>
-                        </a>
-                    </Link>
-                </div>
             </div>
         );
     }
-
-    // moveItemUp = () => {
-    //     console.log("MOVE UP");
-    // }
 
     // Sort Methods
 
@@ -178,6 +139,6 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'todoLists' },
+        { collection: 'todoLists'},
     ]),
 )(ItemsList);

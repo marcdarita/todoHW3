@@ -1,28 +1,56 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-// import ItemsList from './ItemsList.js'
-import { firestoreConnect } from 'react-redux-firebase';
 import DatePicker from 'react-materialize/lib/DatePicker';
-import ItemCard from '../list_screen/ItemCard';
-import { Link } from 'react-router-dom';
+import { getFirestore } from 'redux-firestore';
+import { Button, Icon } from 'react-materialize'; 
 
 class ItemScreen extends Component {
     state = {
-        description: '',
-        assigned_to: '',
-        due_date: '',
-        completed: false,
+        new_description: this.props.location.state.todoList.items[this.props.location.state.key].description,
+        new_assigned_to: this.props.location.state.todoList.items[this.props.location.state.key].assigned_to,
+        new_due_date: this.props.location.state.todoList.items[this.props.location.state.key].due_date,
+        new_completed: this.props.location.state.todoList.items[this.props.location.state.key].completed,
+    }
+
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    onChangeDate = (date) => {
+        var day = date.getDate(); // Day value (DD)
+        var year = date.getFullYear(); // Year value (YYYY)
+        var month = date.getMonth() + 1; // Month value (MM)
+
+        var new_date = year + '-' + month + '-' + day;
+        this.setState({new_due_date: new_date})
+    }
+
+    onChangeCompleted = () => {
+        this.setState({new_completed: !this.state.new_completed})
+    }
+
+    submitEdit = () => {
+        var newList = this.props.location.state.todoList;
+        const newItem = {
+            "key": this.props.location.state.key,
+            "description": this.state.new_description,
+            "assigned_to": this.state.new_assigned_to,
+            "due_date": this.state.new_due_date,
+            "completed": this.state.new_completed
+        }
+
+        newList.items[this.props.location.state.key] = newItem;
+        const firestore = getFirestore();
+        
+        firestore.collection('todoLists').doc(this.props.location.state.todoList.id).update({
+            items: newList.items
+        });
+
+        this.props.history.goBack();
     }
 
     render () {
-        // const auth = this.props.auth;
-        const item = this.props.item;
-        const todoList = this.props.todoList;
-        // if (!auth.uid) {
-        //     return <Redirect to="/" />;
-        // }
+        const key = this.props.location.state.key;
+        const item = this.props.location.state.todoList.items[key];
 
         return (
             <div className="container white row">
@@ -32,41 +60,32 @@ class ItemScreen extends Component {
                     
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s3 left-align grey lighten-2"><h5>Task</h5></div>
-                    <div class="col s3 left-align grey lighten-2"><h5>Due Date</h5></div>
-                    <div class="col s3 left-align grey lighten-2"><h5>Status</h5></div>
-                    <div class="col s3 grey lighten-2"><h5>Action</h5></div>
-                </div>
                 <div className="input-field col s12">
                     <label>Task</label>
-                    <input className="active" type="text" name="task" id="task"/>
+                    <input className="active" type="text" name="task" id="task" onChange = {this.onChange} defaultValue = {item.description}/>
                 </div>
                 <div className="input-field col s12">
                     <label>Assigned To</label>
-                    <input className="active" type="text" name="assigned_to" id="assigned_to"/>
+                    <input className="active" type="text" name="assigned_to" id="assigned_to" onChange = {this.onChange} defaultValue = {item.assigned_to}/>
                 </div>
                 <div className="input-field col s12">
                     <label>Due Date</label>
-                    <DatePicker></DatePicker>
-                    {/* <input className="active" type="date" name="task" id="due_date"/> */}
+                    <DatePicker name = "new_due_date" onChange = {this.onChangeDate} defaultValue = {item.due_date}></DatePicker>
                 </div>
                 <div className="input-field col s12">
                 <p>
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" name = "new_completed" onChange = {this.onChangeCompleted}/>
                         <span>Completed</span>
                     </label>
                 </p>
                 </div>
                 <div className="center-align col s12">
                 
-                    <p><a class="waves-effect waves-light btn light-green lighten-2">Submit</a>
-                            &nbsp;&nbsp;&nbsp;
-                            <Link to ={'/'}>
-                            {/* <Link to={'/todoList/' + this.props.todoList.id} key={this.props.todoList.id}> */}
-                                <a class="waves-effect waves-light btn light-green lighten-2">Cancel</a>
-                            </Link>
+                    <p className="center-align col s12">
+                    <Button className = "waves-effect waves-light btn light-green lighten-2" onClick = {() => {this.submitEdit()}}>Submit</Button>
+                    &nbsp;&nbsp;&nbsp;
+                    <Button className = "waves-effect waves-light btn light-green lighten-2" onClick = {() => {this.props.history.goBack()}}>Cancel</Button>
                     </p>
                 </div>
                 
