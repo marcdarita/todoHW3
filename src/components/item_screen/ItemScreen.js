@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-materialize/lib/DatePicker';
 import { getFirestore } from 'redux-firestore';
 import { Button, Icon } from 'react-materialize'; 
+import { thisExpression } from '@babel/types';
 
 class ItemScreen extends Component {
     state = {
@@ -24,7 +25,7 @@ class ItemScreen extends Component {
         this.setState({new_due_date: new_date})
     }
 
-    onChangeCompleted = () => {
+    onChangeCompleted = (e) => {
         this.setState({new_completed: !this.state.new_completed})
     }
 
@@ -49,6 +50,10 @@ class ItemScreen extends Component {
     }
 
     render () {
+        var isChecked = ""
+        if (this.state.new_completed)
+            {isChecked = "checked"}
+
         const key = this.props.location.state.key;
         const item = this.props.location.state.todoList.items[key];
 
@@ -75,7 +80,7 @@ class ItemScreen extends Component {
                 <div className="input-field col s12">
                 <p>
                     <label>
-                        <input type="checkbox" name = "new_completed" onChange = {this.onChangeCompleted}/>
+                        <input type="checkbox" name = "new_completed" checked = {isChecked} onClick = {this.onChangeCompleted}/>
                         <span>Completed</span>
                     </label>
                 </p>

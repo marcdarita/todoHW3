@@ -48,6 +48,12 @@ class HomeScreen extends Component {
             items:[],
             timestamp: Date.now()
         })
+        
+        // .then(docRef => {
+        //     window.location.href = "/todoList/" + docRef.id;
+        // }).catch(error => {
+        //     console.log(error);
+        // })
     }
 }
 

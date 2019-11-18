@@ -55,11 +55,6 @@ class ListScreen extends Component {
     }
 
     render() {
-
-        const firestore = getFirestore();
-        firestore.collection('todoLists').doc(this.props.todoList.id).update({
-            // timestamp: Date.now(),
-        })
         
         const auth = this.props.auth;
         const todoList = this.props.todoList;
@@ -119,7 +114,9 @@ const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
-  todoList.id = id;
+//   todoList.id = id;
+if(todoList)
+	todoList.id = id;
 
   return {
     todoList,
