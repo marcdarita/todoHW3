@@ -19,10 +19,10 @@ class ItemsList extends React.Component {
         return (
             <div className="todo-lists section">
                 <div class="row">
-                    <div class="col s3 left-align grey lighten-2" onClick = {this.sortByDescription}><h5>Task</h5></div>
-                    <div class="col s3 left-align grey lighten-2" onClick = {this.sortByDueDate}><h5>Due Date</h5></div>
-                    <div class="col s3 left-align grey lighten-2" onClick = {this.sortByStatus}><h5>Status</h5></div>
-                    <div class="col s3 grey lighten-2"><h5>Action</h5></div>
+                    <div class="col s3 left-align grey lighten-2 hoverable cursor" onClick = {this.sortByDescription}><h5>Task</h5></div>
+                    <div class="col s3 left-align grey lighten-2 hoverable cursor" onClick = {this.sortByDueDate}><h5>Due Date</h5></div>
+                    <div class="col s3 left-align grey lighten-2 hoverable cursor" onClick = {this.sortByStatus}><h5>Status</h5></div>
+                    <div class="col s3 grey lighten-2 hoverable"><h5>Action</h5></div>
                 </div>
                 {items && items.map(function(item) {
                     item.id = item.key;

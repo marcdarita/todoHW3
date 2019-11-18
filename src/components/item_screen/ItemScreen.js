@@ -58,19 +58,19 @@ class ItemScreen extends Component {
         const item = this.props.location.state.todoList.items[key];
 
         return (
-            <div className="container white row">
-                <div className="grey-text text-darken-3 light-green lighten-2 center-align">
+            <div className="container white row itemscreen">
+                <div className="grey-text text-darken-3 light-green lighten-2 center-align border">
                     <h5>Edit Item</h5>
                     <div className = "right-align">
                     
                     </div>
                 </div>
                 <div className="input-field col s12">
-                    <label>Task</label>
+                    <label><p>Task</p></label>
                     <input className="active" type="text" name="task" id="task" onChange = {this.onChange} defaultValue = {item.description}/>
                 </div>
                 <div className="input-field col s12">
-                    <label>Assigned To</label>
+                    <label><p>Assigned To</p></label>
                     <input className="active" type="text" name="assigned_to" id="assigned_to" onChange = {this.onChange} defaultValue = {item.assigned_to}/>
                 </div>
                 <div className="input-field col s12">

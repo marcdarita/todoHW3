@@ -50,8 +50,8 @@ class AddItemScreen extends Component {
 
     render () {
         return (
-            <div className="container white row">
-                <div className="grey-text text-darken-3 light-green lighten-2 center-align">
+            <div className="container white row additemscreen">
+                <div className="grey-text text-darken-3 light-green lighten-2 center-align border">
                     <h5>Add New Item</h5>
                     <div className = "right-align">
                     </div>

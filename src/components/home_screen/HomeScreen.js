@@ -27,8 +27,8 @@ class HomeScreen extends Component {
                             List Maker
                         </div>
                         
-                        <div className="home_new_list_container">
-                                <button className="home_new_list_button" onClick={this.handleNewList}>
+                        <div className="home_new_list_container center-align">
+                                <button className="home_new_list_button border cursor" onClick={this.handleNewList}>
                                     Create a New To Do List
                                 </button>
                         </div>
@@ -40,20 +40,27 @@ class HomeScreen extends Component {
 
     handleNewList = () => {
         const fireStore = getFirestore();
+        var link = null;
 
         console.log("Creating new list")
         fireStore.collection('todoLists').add({
-            name: "N/A",
-            owner: "N/A",
+            name: "Unknown",
+            owner: "Unknown",
             items:[],
             timestamp: Date.now()
         })
+
+        // return <Redirect to="/login"/>;
         
-        // .then(docRef => {
-        //     window.location.href = "/todoList/" + docRef.id;
-        // }).catch(error => {
-        //     console.log(error);
-        // })
+        .then(docRef => {
+            link = docRef.id
+            window.location.href = "/todoList/" + docRef.id;
+            window.location.replace("/todoList/" + docRef.id)
+        }).catch(error => {
+            console.log(error);
+        })
+
+        // return <Redirect to ="/todoLists/" + link/>
     }
 }
 

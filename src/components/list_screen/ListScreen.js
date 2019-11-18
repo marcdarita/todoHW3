@@ -48,11 +48,11 @@ class ListScreen extends Component {
         firestore.collection('todoLists').doc(this.props.todoList.id).delete();
     }
 
-    removeFooter = () => {
-        var element = document.getElementsByClassName("modal-footer")[0];
-        if (element)
-            {element.parentNode.removeChild(element);}
-    }
+    // removeFooter = () => {
+    //     var element = document.getElementsByClassName("modal-footer")[0];
+    //     if (element)
+    //         {element.parentNode.removeChild(element);}
+    // }
 
     render() {
         
@@ -62,19 +62,20 @@ class ListScreen extends Component {
             return <Redirect to="/" />;
         }
 
+        if(!todoList)
+	        return <React.Fragment />
 
         const trashTrigger = 
-        <Button className = "waves-effect waves-light btn-flat btn-floating btn-large center-align light-green lighten-3"
-            onClick = {this.removeFooter}>
+        <Button className = "waves-effect waves-light btn-flat btn-floating btn-large center-align light-green lighten-3">
             <i class="material-icons">delete</i>
         </Button>   
 
         return (
-            <div className="container white row">
-                <div className="grey-text text-darken-3 light-green lighten-2 center-align">
-                    <h5>Todo List</h5>
+            <div className="container white row listscreen">
+                <div className="grey-text text-darken-3 light-green lighten-2 center-align border">
+                    <h1>Todo List
                     <div className = "right-align">
-                        <Modal header="Delete List?" trigger={trashTrigger}>
+                        <Modal header="Delete List?" trigger={trashTrigger} className = "border">
                             <h5><strong>Are you sure you want to delete this list?</strong></h5>
                             <Link to="/">
                             <a onClick = {this.deleteList.bind(this)} class="waves-effect waves-light btn light-green lighten-2">Yes</a></Link>
@@ -83,15 +84,16 @@ class ListScreen extends Component {
                             
                             <footer> <h6>Note: The list will not be retreivable.</h6></footer>
                         </Modal>
-                    </div>
+                        </div>
+                        </h1>
                 </div>
                 
                 <div className="input-field col s6">
-                    <label htmlFor="email">Name</label>
+                    <label htmlFor="email"><p>Name</p></label>
                     <input className="active" type="text" name="name" id="name" onChange={this.handleChange.bind(this)} onKeyUp = {this.updateName.bind(this)} defaultValue={todoList.name} />
                 </div>
                 <div className="input-field col s6">
-                    <label htmlFor="password">Owner</label>
+                    <label htmlFor="password"><p>Owner</p></label>
                     <input className="active" type="text" name="owner" id="owner" onChange={this.handleChange.bind(this)} onKeyUp = {this.updateOwner.bind(this)} defaultValue={todoList.owner} />
                 </div>
                 

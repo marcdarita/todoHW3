@@ -41,3 +41,23 @@ div.banner {
 .fixed-action-btn{
   position: relative;
 }
+
+.listscreen {
+  border-radius: 40px;
+  border: #111111;
+  border-style: groove;
+}
+
+.itemscreen, .additemscreen {
+  border-radius: 40px;
+  border: #111111;
+  border-style: dashed;
+}
+
+.border {
+  border-radius: 20px;
+}
+
+.cursor {
+  cursor: pointer;
+}
